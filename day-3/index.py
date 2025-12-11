@@ -77,26 +77,36 @@ TOTAL_DIGITS = 12
 
 def get_max_joltage_puzzle_2(value):
     value_len = len(value)
-    print(value_len)
+    # print(value_len)
     result = "000000000000"
     positions = [0]*12
     for loop in range(0,TOTAL_DIGITS):
-        print("\n loop index",loop, "range", loop , value_len + 1- (TOTAL_DIGITS - loop))
-        for index in range(loop,value_len + 1 - (TOTAL_DIGITS - loop)):
-            print(index, "numvalue", value[index], end=" ")
+        # print("\n loop index",loop, "range", loop , value_len + 1- (TOTAL_DIGITS - loop))
+        for index in range(loop,value_len + 1  - (TOTAL_DIGITS - loop)):
+            # print( "numvalue",index, value[index], end=" ")
             if(int(result[loop]) < int(value[index])):
-                if loop == 0: 
-                    positions[loop] = index
+                if loop == 0:
                     result_arr = list(result)
                     result_arr[loop] = value[index]
-                    result = "".join(result_arr)
-                elif index > positions[loop]:
                     positions[loop] = index
-                    result_arr = list(result)
-                    for reset_index in range(loop+1,TOTAL_DIGITS):
-                        result_arr[reset_index] = "0"
-                    result_arr[loop] = value[index]
                     result = "".join(result_arr)
+                elif index > positions[loop - 1]:
+                    result_arr = list(result)
+                    result_arr[loop] = value[index]
+                    positions[loop] = index
+                    result = "".join(result_arr)
+                # if loop == 0: 
+                #     positions[loop] = index
+                #     result_arr = list(result)
+                #     result_arr[loop] = value[index]
+                #     result = "".join(result_arr)
+                # elif index > positions[loop]:
+                #     positions[loop] = index
+                #     result_arr = list(result)
+                #     for reset_index in range(loop+1,TOTAL_DIGITS):
+                #         result_arr[reset_index] = "0"
+                #     result_arr[loop] = value[index]
+                #     result = "".join(result_arr)
                
     return int(result)
 
@@ -111,11 +121,11 @@ def puzzle2():
         content = f.read()  
     
     content_arr = content.split("\n")
-    content_arr = content_arr[0:1]
+    # content_arr = content_arr[0:1]
 
 
     for item in content_arr:
-        result = get_max_joltage_puzzle_2("234234234234278")
+        result = get_max_joltage_puzzle_2(item)
         print("result", result)
         answer+= result
 
