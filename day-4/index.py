@@ -19,7 +19,7 @@ def check_roll_access():
 
 """
 
-import os,copy
+import os
 
 def check_roll_access(row_index,col_index, roll_grid):
     row_len = len(roll_grid[0])
@@ -92,3 +92,44 @@ def puzzle1():
 
 answer = puzzle1()
 print("Puzzle 1 answer:", answer)
+
+def puzzle2():
+    content = ""
+
+    file_path = os.path.join(os.path.dirname(__file__), "input.txt")
+
+    with open(file_path,'r') as f:
+        content = f.read()  
+    
+    content_arr = content.split("\n")
+
+    roll_grid = []
+    answer = 0
+
+    for item in content_arr:
+        roll_grid.append(list(item))
+
+    return calculate_rolls_to_remove(roll_grid)
+
+def calculate_rolls_to_remove(roll_grid):
+    count = 0
+    row_len = len(roll_grid[0])
+    col_len = len(roll_grid)
+        
+    for row_index in range(0,row_len):
+        for col_index in range(0,col_len):
+            if roll_grid[row_index][col_index] == '@':
+                has_role_access = check_roll_access(row_index,col_index,roll_grid)
+                if has_role_access:
+                    roll_grid[row_index][col_index] = '.'
+                    count+=1
+
+    if count != 0:
+        return count + calculate_rolls_to_remove(roll_grid)
+    else:
+        return count
+
+
+answer2 = puzzle2()
+
+print("Answer puzzle 2: ", answer2)
